@@ -33,18 +33,18 @@ char* strsplit(char *input, const char *delim)
 }
 
 
-int main()
-{
-    char str[] = "Day la dong 1\nDay la dong thu 2\n\nDay la dong thu 4\n\nDay la dong thu 6";
+// int main()
+// {
+//     char str[] = "Day la dong 1\nDay la dong thu 2\n\nDay la dong thu 4\n\nDay la dong thu 6";
 
-    char *token = strsplit(str, "\n\n");
+//     char *token = strsplit(str, "\n\n");
 
-    int count = 0;
-    while (token != NULL) {
-        printf("Dong %d: '%s'\n", count, token);
-        token = strsplit(NULL, "\n\n");
-        count++;
-    }
+//     int count = 0;
+//     while (token != NULL) {
+//         printf("Dong %d: '%s'\n", count, token);
+//         token = strsplit(NULL, "\n\n");
+//         count++;
+//     }
 
-    return 0;
-}
+//     return 0;
+// }

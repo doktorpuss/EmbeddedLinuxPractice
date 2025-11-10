@@ -4,6 +4,7 @@
 #include<fcntl.h>
 #include<unistd.h>  
 #include<string.h>
+#include<my_strlib.h>
 
 #define READ_SIZE 1024 
 #define DEVICE_INFO_SIZE 512
@@ -33,42 +34,62 @@ char *readInputsDevicesFile()
     return content;
 }
 
-char **getInputDevicesList()
+// Read input device file, 
+// point device_list pointer to splited device list,
+// return number of input devices
+int getInputDevicesList(char ***device_list)
 {
-    char **devices_list = NULL;
-    int num_devices = 0;
+    *device_list = NULL;
+    int capacity = 8;
+    int count = 0;
 
+    // read input device file
+    char *buffer = readInputsDevicesFile();
+    if (!buffer) return 0;
 
-    // Read /proc/bus/input/devices
-    char *buffer = NULL;
-    buffer = readInputsDevicesFile(); 
-    if (buffer == NULL) return NULL;
-    
-    // First device extraction
-    num_devices++; 
-    devices_list == (char**) calloc(num_devices , sizeof(char*));
-    devices_list[num_devices-1] = (char*) calloc(DEVICE_INFO_SIZE , sizeof(char));
-    *(devices_list[num_devices-1]) = *(strtok(buffer,"\n"));
+    *device_list = malloc(capacity * sizeof(char*));
 
-    
+    char *walker = buffer;
+    char *dev = strsplit(walker, "\n\n");  // get first de
 
+    while (dev != NULL)
+    {
+        // resize list if need
+        if (count >= capacity) {
+            capacity *= 2;
+            *device_list = realloc(*device_list, capacity * sizeof(char*));
+        }
 
-    return devices_list;
-}
+        // store device info
+        (*device_list)[count] = malloc(strlen(dev) + 1);
+        strcpy((*device_list)[count], dev);
+        count++;
 
-int main() {
-    char *content = NULL;
-
-    content = readInputsDevicesFile();
-    if (content == NULL){
-        perror("Can't read /proc/bus/input/devices");
-        return -1;
+        // find next input device
+        dev = strsplit(NULL, "\n\n");     
     }
 
+    free(buffer);
+    return count - 1; 
+}
 
-    printf("%s \n size: %ld",content,strlen(content));
+void freeInputDevicesList(char **list, int num_device)
+{
+    for (int i = 0; i < num_device; i++) free(list[i]);
+        free(list);
+}
 
-    free(content);
+
+int main() {
+    char **list;
+    int n = getInputDevicesList(&list);
+
+    for (int i = 0; i < n; i++)
+        printf("Device %d:\n%s\n\n", i, list[i]);
+
+    printf("Found %d devices\n",n);
+
+    freeInputDevicesList(list,n);
     
     return 0;
 }
