@@ -1,0 +1,8 @@
+file(GLOB MY_DEVICE_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.c"
+)
+
+add_library(MY_DEVICE STATIC ${MY_DEVICE_SOURCES})
+
+target_include_directories(MY_DEVICE PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

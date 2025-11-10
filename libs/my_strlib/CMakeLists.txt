@@ -1,0 +1,8 @@
+file(GLOB MY_STRLIB_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.c"
+)
+
+add_library(MY_STRLIB STATIC ${MY_STRLIB_SOURCES})
+
+target_include_directories(MY_STRLIB PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
