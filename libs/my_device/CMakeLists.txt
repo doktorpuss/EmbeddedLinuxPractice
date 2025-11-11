@@ -6,3 +6,5 @@ file(GLOB MY_DEVICE_SOURCES
 add_library(MY_DEVICE STATIC ${MY_DEVICE_SOURCES})
 
 target_include_directories(MY_DEVICE PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(MY_DEVICE PUBLIC MY_STRLIB)
