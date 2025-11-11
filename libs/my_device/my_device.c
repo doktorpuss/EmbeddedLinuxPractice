@@ -72,3 +72,4 @@ void freeInputDevicesList(char **list, int num_device)
     for (int i = 0; i < num_device; i++) free(list[i]);
         free(list);
 }
+
